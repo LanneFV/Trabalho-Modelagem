@@ -22,15 +22,15 @@ st.set_page_config(
 # CORES DEFINIDAS PELO USUÁRIO
 # =============================================================================
 CORES = {
-    "fundo": "#FAF7F3",           # Off-white quente
-    "texto_principal": "#1F3A5F", # Azul profundo
-    "texto_graficos": "#2C3E50",  # Azul quase preto - ESCURO para contraste
-    "texto_ui": "#1F3A5F",        # Azul profundo para UI
-    "detalhes_ui": "#E8DCCF",     # Off-white secundário
-    "grafico_idhm": "#5DA9E9",    # Azul claro
-    "grafico_maes": "#F4B6C2",    # Rosa claro suave
-    "alertas": "#FFD166",         # Amarelo suave
-    "destaques": "#FF9F1C",       # Amarelo mais forte
+    "fundo": "#FAF7F3",           
+    "texto_principal": "#1F3A5F", 
+    "texto_graficos": "#2C3E50",  
+    "texto_ui": "#1F3A5F",       
+    "detalhes_ui": "#E8DCCF",    
+    "grafico_idhm": "#5DA9E9",    
+    "grafico_maes": "#F4B6C2",    
+    "alertas": "#FFD166",         
+    "destaques": "#FF9F1C",       
     "linha_idhm": "#5DA9E9",      # Linha IDHM
     "linha_maes": "#F4B6C2",      # Linha Mães
     "grid_lines": "#E8DCCF",      # Grid lines
@@ -38,7 +38,7 @@ CORES = {
     "branco": "#FFFFFF",
     "cinza_claro": "#F0F0F0",
     "cinza_medio": "#D0D0D0",
-    "cinza_escuro": "#444444"     # Escuro para contraste
+    "cinza_escuro": "#444444"     
 }
 
 REGIAO_CORES = {
@@ -193,7 +193,6 @@ def plot_ranking_idhm_geral(df, ano, top_n, faixa_etaria):
         textfont=dict(color=CORES['texto_graficos'], size=11)
     ))
     
-    # Configurar layout com fundo branco
     fig.update_layout(
         title=dict(
             text=f'TOP {top_n} ESTADOS - Maior % de Mães {faixa_etaria} ({ano})',
@@ -280,19 +279,17 @@ def gerar_relatorio_ranking(top_estados, dados_faixa, top_n, faixa_etaria, ano):
     relatorio = f"## 📊 ANÁLISE DETALHADA DO RANKING - {faixa_etaria} ({ano})\n"
     relatorio += "-" * 50 + "\n\n"
     
-    # Estatísticas do grupo
     media_top = top_estados['Percentual'].mean()
     media_idhm_top = top_estados['IDHM'].mean()
     media_geral = dados_faixa['Percentual'].mean()
     media_idhm_geral = dados_faixa['IDHM'].mean()
     
-    relatorio += f"### 📈 TOP {top_n} ESTADOS - ANÁLISE:\n"
+    relatorio += f"#### 📈 TOP {top_n} ESTADOS - ANÁLISE:\n"
     relatorio += f"• **Média do Top {top_n}:** {media_top:.1f}% (IDHM: {media_idhm_top:.3f})\n"
     relatorio += f"• **Média de Todos Estados:** {media_geral:.1f}% (IDHM: {media_idhm_geral:.3f})\n"
     relatorio += f"• **Diferença:** +{media_top - media_geral:.1f}% | IDHM: {media_idhm_top - media_idhm_geral:+.3f}\n\n"
     
-    # Distribuição regional
-    relatorio += f"### 🌎 DISTRIBUIÇÃO REGIONAL NO TOP {top_n}:\n"
+    relatorio += f"#### 🌎 DISTRIBUIÇÃO REGIONAL NO TOP {top_n}:\n"
     
     regioes_grupo = {
         'NORTE': ['Acre', 'Amapá', 'Amazonas', 'Pará', 'Rondônia', 'Roraima', 'Tocantins'],
@@ -308,11 +305,10 @@ def gerar_relatorio_ranking(top_estados, dados_faixa, top_n, faixa_etaria, ano):
         if estados_no_top:
             relatorio += f"• **{regiao}:** {len(estados_no_top)} estado(s) - {', '.join(estados_no_top)}\n"
     
-    # Correlações
     correlacao_top = top_estados['Percentual'].corr(top_estados['IDHM'])
     correlacao_geral = dados_faixa['Percentual'].corr(dados_faixa['IDHM'])
     
-    relatorio += f"\n### 🔗 CORRELAÇÃO NO TOP {top_n}:\n"
+    relatorio += f"\n#### 🔗 CORRELAÇÃO NO TOP {top_n}:\n"
     relatorio += f"• **Correlação Top {top_n}:** {correlacao_top:.3f}\n"
     relatorio += f"• **Correlação Geral:** {correlacao_geral:.3f}\n"
     
@@ -321,8 +317,7 @@ def gerar_relatorio_ranking(top_estados, dados_faixa, top_n, faixa_etaria, ano):
     else:
         relatorio += "• **Relação mais fraca** entre IDHM e maternidade nos estados com maiores percentuais\n"
     
-    # Análise de tendências
-    relatorio += f"\n### 📅 EVOLUÇÃO DOS ESTADOS DO TOP:\n"
+    relatorio += f"\n## 📅 EVOLUÇÃO DOS ESTADOS DO TOP:\n"
     
     if ano > 2010:
         anos_comparacao = [2000, 2010]
@@ -346,8 +341,8 @@ def gerar_relatorio_ranking(top_estados, dados_faixa, top_n, faixa_etaria, ano):
                 if estados_evolucao:
                     relatorio += f"• **{ano_comp} → {ano}:** {', '.join(estados_evolucao[:3])}\n"
     
-    # Implicações políticas
-    relatorio += f"\n### 🏛️ IMPLICAÇÕES PARA POLÍTICAS PÚBLICAS:\n"
+
+    relatorio += f"\n#### 🏛️ IMPLICAÇÕES PARA POLÍTICAS PÚBLICAS:\n"
     
     if faixa_etaria in ['10-14 anos', '15-19 anos']:
         relatorio += "• **ESTADOS CRÍTICOS:** Necessitam de intervenções urgentes\n"
@@ -364,8 +359,7 @@ def gerar_relatorio_ranking(top_estados, dados_faixa, top_n, faixa_etaria, ano):
         relatorio += "• **Foco em:** Planejamento familiar, apoio à maternidade\n"
         relatorio += "• **Programas:** Licença-maternidade, creches, apoio à dupla jornada\n"
     
-    # Recomendações específicas
-    relatorio += f"\n### 🎯 RECOMENDAÇÕES ESPECÍFICAS:\n"
+    relatorio += f"\n#### 🎯 RECOMENDAÇÕES ESPECÍFICAS:\n"
     
     estados_prioridade = top_estados[top_estados['IDHM'] < 0.700]
     if not estados_prioridade.empty:
@@ -394,10 +388,8 @@ def plot_evolucao_completa(df, faixa_etaria, tipo_analise='Todos Estados', estad
         
         estados_unicos = sorted(dados_faixa['Estado'].unique())
         
-        # Limitar a 20 estados para não sobrecarregar
         estados_unicos = estados_unicos[:20]
         
-        # Cores válidas para Plotly (sem transparência, 7 caracteres)
         cores_regioes = {
             'NORTE': ['#FF0000', "#DF4156", "#CA3939", "#550303", "#A31780", "#E77E6C", "#F182B6"],
             'NORDESTE': ['#FF8C00', "#FFBB00", "#DDCA5D", "#DAB820", '#B8860B', "#4B2D07", "#AD6200", '#D2691E', "#BB8F4C"],
@@ -420,18 +412,16 @@ def plot_evolucao_completa(df, faixa_etaria, tipo_analise='Todos Estados', estad
             if regiao in cores_regioes:
                 for i, estado in enumerate(estados):
                     if i < len(cores_regioes[regiao]):
-                        # Garantir que a cor tem 7 caracteres (sem alpha)
                         cor = cores_regioes[regiao][i]
-                        cor = limpar_cor(cor)  # Limpar a cor
+                        cor = limpar_cor(cor) 
                         cores_estados[estado] = cor
         
         for estado in estados_unicos:
             dados_estado = dados_faixa[dados_faixa['Estado'] == estado]
             cor = cores_estados.get(estado, '#666666')
             
-            # Garantir que a cor seja válida
             if len(cor) != 7:
-                cor = '#666666'  # Fallback para cor segura
+                cor = '#666666' 
             
             fig.add_trace(go.Scatter(
                 x=dados_estado['Ano'],
@@ -445,7 +435,6 @@ def plot_evolucao_completa(df, faixa_etaria, tipo_analise='Todos Estados', estad
                 visible='legendonly' if estado not in estados_unicos[:5] else True
             ))
         
-        # Linha da média Brasil
         evolucao_media = dados_faixa.groupby('Ano')['Percentual'].mean().reset_index()
         fig.add_trace(go.Scatter(
             x=evolucao_media['Ano'],
@@ -456,7 +445,6 @@ def plot_evolucao_completa(df, faixa_etaria, tipo_analise='Todos Estados', estad
             hovertemplate='<b>MÉDIA BRASIL</b><br>Ano: %{x}<br>% Mães: %{y:.1f}%<extra></extra>'
         ))
         
-        # Configurar layout com fundo branco
         fig.update_layout(
             title=dict(
                 text=f'TODOS OS {len(estados_unicos)} ESTADOS: % Mães {faixa_etaria}',
@@ -496,7 +484,6 @@ def plot_evolucao_completa(df, faixa_etaria, tipo_analise='Todos Estados', estad
             )
         )
         
-        # Gerar relatório
         relatorio = f"### 📈 EVOLUÇÃO COMPLETA: IDHM GERAL vs MATERNIDADE\n"
         relatorio += "-" * 40 + "\n\n"
         
@@ -652,7 +639,6 @@ def plot_evolucao_completa(df, faixa_etaria, tipo_analise='Todos Estados', estad
                     hovertemplate=f'<b>{regiao}</b><br>Ano: %{{x}}<br>% Mães: %{{y:.1f}}%<extra></extra>'
                 ))
         
-        # Configurar layout com fundo branco
         fig.update_layout(
             title=dict(
                 text=f'EVOLUÇÃO POR REGIÃO: % Mães {faixa_etaria}',
@@ -685,7 +671,6 @@ def plot_evolucao_completa(df, faixa_etaria, tipo_analise='Todos Estados', estad
             )
         )
         
-        # Relatório
         relatorio = f"### 🌎 COMPARAÇÃO REGIONAL\n"
         relatorio += "-" * 40 + "\n\n"
         
@@ -1073,7 +1058,7 @@ with st.sidebar:
 # =============================================================================
 # ABAS PRINCIPAIS
 # =============================================================================
-tab1, tab2, tab3 = st.tabs(["📊 Dashboard Principal", "📋 Relatórios Avançados", "📈 Gráficos Comparativos"])
+tab1, tab2, tab3 = st.tabs(["📊 Dashboard Principal", "📋 Relatórios", "📈 Gráficos Comparativos"])
 
 # =============================================================================
 # TAB 1: DASHBOARD PRINCIPAL
@@ -1081,7 +1066,7 @@ tab1, tab2, tab3 = st.tabs(["📊 Dashboard Principal", "📋 Relatórios Avanç
 with tab1:
     st.markdown(f"""
     <div style='text-align: center; padding: 15px;'>
-        <h1>👶 Dashboard IDHM vs Maternidade 💼</h1>
+        <h1>Dashboard IDHM vs Maternidade </h1>
         <p style='font-size: 1.1rem; color: #5DA9E9;'>
             Análise da Relação entre Desenvolvimento Humano e Padrões de Maternidade
         </p>
@@ -1149,7 +1134,6 @@ with tab1:
     
     st.markdown("<hr>", unsafe_allow_html=True)
     
-    # GRÁFICO DE CORRELAÇÃO
     st.markdown(f"### 📈 Correlação IDHM vs % Mães - {selected_faixa}")
     
     if not dados_kpi.empty:
@@ -1169,7 +1153,6 @@ with tab1:
             }
         )
         
-        # Aplicar layout com fundo branco e cores escuras
         fig_corr = configurar_layout_plotly(
             fig_corr,
             f'Correlação IDHM vs % Mães - {selected_faixa}',
@@ -1295,7 +1278,6 @@ with tab2:
     
     st.markdown("<hr>", unsafe_allow_html=True)
     
-    # RELATÓRIO POR ESTADO
     st.markdown("### 📊 Relatório por Estado")
     
     col_rel1, col_rel2 = st.columns([1, 2])
@@ -1330,17 +1312,14 @@ with tab2:
             col_r1, col_r2, col_r3 = st.columns(3)
             
             with col_r1:
-                # REMOVIDO: key="metric_registros"
                 st.metric("Total de Registros", len(dados_relatorio))
             
             with col_r2:
                 media_perc = dados_relatorio['Percentual'].mean()
-                # REMOVIDO: key="metric_media_maes"
                 st.metric("Média % Mães", f"{media_perc:.1f}%")
             
             with col_r3:
                 media_idhm = dados_relatorio['IDHM'].mean()
-                # REMOVIDO: key="metric_media_idhm"
                 st.metric("IDHM Médio", f"{media_idhm:.3f}")
             
             # Distribuição por faixa etária
@@ -1359,7 +1338,6 @@ with tab2:
                 title=f'Distribuição por Faixa Etária - {ano_relatorio}'
             )
             
-            # Aplicar layout com fundo branco
             fig_dist = configurar_layout_plotly(
                 fig_dist,
                 f'Distribuição por Faixa Etária - {ano_relatorio}',
@@ -1405,7 +1383,6 @@ with tab2:
     
     st.markdown("<hr>", unsafe_allow_html=True)
     
-    # ANÁLISE COMPARATIVA
     st.markdown("### 📊 Análise Comparativa")
     
     estados_comparar = st.multiselect(
@@ -1497,22 +1474,18 @@ with tab3:
             resultado = plot_ranking_idhm_geral(df, ano_ranking, top_n, faixa_ranking)
             
             if resultado:
-                fig_ranking, top_estados, dados_faixa = resultado
+                fig_ranking, top_estados, dados_faixa = resultado       
                 
-                # Gráfico principal COM KEY ÚNICO
-                st.plotly_chart(fig_ranking, width='stretch', key="ranking_comparativo_principal")
-                
-                # Opção de expandir COM KEY ÚNICO
+                st.plotly_chart(fig_ranking, width='stretch', key="ranking_comparativo_principal")             
+              
                 with st.expander("🔍 Ampliar Gráfico", expanded=False):
                     st.plotly_chart(fig_ranking, width='stretch', height=600, key="ranking_comparativo_expandido")
                 
-                # Gerar gráfico vertical alternativo COM KEY ÚNICO
                 st.markdown("### 📊 Vista Alternativa (Vertical)")
                 fig_vertical = plot_ranking_vertical(df, ano_ranking, top_n, faixa_ranking)
                 if fig_vertical:
                     st.plotly_chart(fig_vertical, width='stretch', key="ranking_vertical")
                 
-                # Gerar relatório
                 relatorio = gerar_relatorio_ranking(top_estados, dados_faixa, top_n, faixa_ranking, ano_ranking)
                 
                 with st.expander("📋 Ver Relatório Completo do Ranking", expanded=True):
@@ -1520,7 +1493,6 @@ with tab3:
     
     st.markdown("<hr>", unsafe_allow_html=True)
     
-    # SEÇÃO 2: EVOLUÇÃO TEMPORAL
     st.markdown("### 📅 Evolução Temporal")
     
     col_evo1, col_evo2, col_evo3 = st.columns(3)
@@ -1548,18 +1520,14 @@ with tab3:
             )
             
             if fig_evolucao:
-                # Gráfico principal COM KEY ÚNICO
                 st.plotly_chart(fig_evolucao, width='stretch', key="evolucao_principal")
-                
-                # Opção de expandir COM KEY ÚNICO
+
                 with st.expander("🔍 Ampliar Gráfico", expanded=False):
                     st.plotly_chart(fig_evolucao, width='stretch', height=700, key="evolucao_expandido")
                 
-                # Exibir relatório
-                with st.expander("📋 Relatório da Análise", expanded=True):
+                with st.expander("📋 Relatório", expanded=True):
                     st.markdown(relatorio_evolucao)
                     
-                    # Adicionar estatísticas regionais dinâmicas
                     if tipo_analise == 'Todos Estados':
                         estatisticas = calcular_estatisticas_regionais(df, 2021, faixa_evolucao)
                         if estatisticas:
@@ -1572,9 +1540,10 @@ with tab3:
 # =============================================================================
 st.markdown("""
 <div style='text-align: center; padding: 15px; color: #666; font-size: 0.8rem; border-top: 1px solid #E8DCCF; margin-top: 20px;'>
-    <p>📊 <strong>Dashboard IDHM vs Maternidade</strong> | Análise de dados de 2000-2021</p>
-    <p>🛠️ Desenvolvido com Streamlit, Plotly e Pandas | Gerado em {}</p>
-    <p>📚 Fontes: DataSUS (SINASC) + Atlas do Desenvolvimento Humano (PNUD)</p>
-    <p>🎯 Objetivo: Informar políticas públicas baseadas em evidências</p>
+    <p><strong>Dashboard IDHM vs Maternidade</strong> | Análise de dados de 2000-2021</p>
+    <p>Desenvolvido com Streamlit, Plotly e Pandas | Gerado em {}</p>
+    <p>Fontes: DataSUS (SINASC) + Atlas do Desenvolvimento Humano (PNUD)</p>
+    <p>Objetivo: Informar políticas públicas baseadas em evidências</p>
+    <p>Autoras: Bruna Pereira da Cunha e Elane Ferreira Viana</p>
 </div>
 """.format(datetime.now().strftime('%d/%m/%Y %H:%M')), unsafe_allow_html=True)
