@@ -689,10 +689,93 @@ def plot_evolucao_completa(df, faixa_etaria, tipo_analise='Todos Estados', estad
     return fig, relatorio
 
 # =============================================================================
-# CSS ESTILO CLARO MODERNO COM CORREÇÕES
+# CSS 
 # =============================================================================
 st.markdown(f"""
 <style>
+    /* DESIGN MODERNO PARA ABAS */
+    div[data-testid="stTabs"] {{
+        background: {CORES['branco']} !important;
+        padding: 15px !important;
+        border-radius: 15px !important;
+        margin-bottom: 25px !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }}
+    
+    .stTabs [data-baseweb="tab-list"] {{
+        gap: 6px !important;
+        padding: 8px !important;
+        background: {CORES['fundo']} !important;
+        border-radius: 12px !important;
+        border: 2px solid {CORES['detalhes_ui']} !important;
+    }}
+    
+    .stTabs [data-baseweb="tab"] {{
+        color: {CORES['texto_principal']} !important;
+        font-weight: 700 !important;
+        font-size: 16px !important;
+        padding: 14px 28px !important;
+        border-radius: 10px !important;
+        background: transparent !important;
+        border: 2px solid transparent !important;
+        transition: all 0.3s ease !important;
+        position: relative !important;
+        overflow: hidden !important;
+    }}
+    
+    .stTabs [data-baseweb="tab"]::before {{
+        content: '' !important;
+        position: absolute !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        background: linear-gradient(135deg, {CORES['grafico_idhm']}10, {CORES['grafico_maes']}10) !important;
+        border-radius: 8px !important;
+        opacity: 0 !important;
+        transition: opacity 0.3s ease !important;
+    }}
+    
+    .stTabs [aria-selected="true"] {{
+        color: {CORES['grafico_idhm']} !important;
+        background: {CORES['branco']} !important;
+        border: 2px solid {CORES['grafico_idhm']} !important;
+        box-shadow: 0 4px 15px {CORES['grafico_idhm']}30 !important;
+        font-size: 17px !important;
+        transform: scale(1.02) !important;
+    }}
+    
+    .stTabs [aria-selected="true"]::before {{
+        opacity: 1 !important;
+    }}
+    
+    .stTabs [aria-selected="false"]:hover {{
+        color: {CORES['destaques']} !important;
+        background: {CORES['alertas']}15 !important;
+        border: 2px solid {CORES['alertas']}40 !important;
+        transform: translateY(-2px) !important;
+    }}
+    
+    /* Indicador animado */
+    .stTabs [aria-selected="true"]::after {{
+        content: '' !important;
+        position: absolute !important;
+        bottom: -8px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: 40px !important;
+        height: 4px !important;
+        background: linear-gradient(90deg, {CORES['grafico_idhm']}, {CORES['grafico_maes']}) !important;
+        border-radius: 2px !important;
+        animation: pulse 2s infinite !important;
+    }}
+    
+    @keyframes pulse {{
+        0% {{ opacity: 1; }}
+        50% {{ opacity: 0.5; }}
+        100% {{ opacity: 1; }}
+    }}
+
     /* Tema claro moderno */
     .stApp {{
         background: {CORES['fundo']} !important;
@@ -866,7 +949,8 @@ st.markdown(f"""
         border: none;
     }}
     
-    /* Tabs */
+    /* Tabs - REMOVA ESTA SEÇÃO POIS JÁ TEMOS ESTILOS MODERNOS ACIMA */
+    /*
     .stTabs [data-baseweb="tab-list"] {{
         margin-bottom: 10px !important;
         gap: 2px;
@@ -881,6 +965,7 @@ st.markdown(f"""
         color: {CORES['grafico_idhm']} !important;
         border-bottom: 2px solid {CORES['grafico_idhm']} !important;
     }}
+    */
     
     /* Ícones */
     .big-icon {{
@@ -973,7 +1058,6 @@ st.markdown(f"""
     }}
 </style>
 """, unsafe_allow_html=True)
-
 # =============================================================================
 # CARREGAR DADOS
 # =============================================================================
@@ -1183,7 +1267,6 @@ with tab1:
     
     st.markdown("<hr>", unsafe_allow_html=True)
     
-    # RANKING DOS ESTADOS
     st.markdown(f"### 🏆 Ranking dos Estados - {selected_faixa}")
     
     if not dados_kpi.empty:
@@ -1247,19 +1330,16 @@ with tab1:
                 height=500,
                 margin=dict(l=50, r=20, t=60, b=100)
             )
-        
-        # Aplicar layout com fundo branco
+
         fig_rank = configurar_layout_plotly(
             fig_rank,
             f'Top 15 Estados - Maior % de Mães {selected_faixa}',
             altura=500,
             rotacao_x=45 if tipo_grafico == "Barras Verticais" else 0
         )
-        
-        # Gráfico principal COM KEY ÚNICO
+
         st.plotly_chart(fig_rank, width='stretch', key="ranking_principal")
         
-        # Opção de expandir COM KEY ÚNICO
         with st.expander("🔍 Ampliar Gráfico", expanded=False):
             st.plotly_chart(fig_rank, width='stretch', height=600, key="ranking_expandido")
 
@@ -1269,7 +1349,7 @@ with tab1:
 with tab2:
     st.markdown("""
     <div style='text-align: center; padding: 10px;'>
-        <h1 style='font-size: 2rem;'>📋 Relatórios Avançados</h1>
+        <h1 style='font-size: 2rem;'>📋 Relatórios</h1>
         <p style='font-size: 1rem; color: #5DA9E9;'>
             Análises detalhadas e relatórios personalizados
         </p>
